@@ -38,20 +38,26 @@ for r in rows:
 with open(REG, "w", newline="", encoding="utf-8") as f:
     w = csv.DictWriter(f, fieldnames=COLS); w.writeheader(); [w.writerow({k: r.get(k, "") for k in COLS}) for r in rows]
 res = [r for r in rows if r.get("estado") == "resuelto"]; pend = [r for r in rows if r.get("estado") != "resuelto"]
+def tier(r):
+    try: return "A" if float(r.get("stake") or 100) >= 100 else "B"
+    except Exception: return "A"
 def ci(x, n=2000, seed=0):
     x = np.asarray(x, float); rng = np.random.default_rng(seed)
     if len(x) < 5: return (float("nan"), float("nan"))
     b = [rng.choice(x, len(x)).mean() for _ in range(n)]; return (np.percentile(b, 2.5), np.percentile(b, 97.5))
-lines = [f"# Marcador — laboratorio de reglas (papel, $100 por caso)", f"Actualizado: {dt.datetime.now(dt.timezone.utc):%Y-%m-%d %H:%M} UTC", "",
-         f"- Casos marcados: {len(rows)} | resueltos: {len(res)} | pendientes: {len(pend)}"]
+lines = [f"# Marcador — laboratorio de reglas (papel; nivel A = $100, diferencia ≥0.15; nivel B = $50, diferencia 0.08-0.15)", f"Actualizado: {dt.datetime.now(dt.timezone.utc):%Y-%m-%d %H:%M} UTC", "",
+         f"- Casos marcados: {len(rows)} (A {sum(tier(r)=='A' for r in rows)} / B {sum(tier(r)=='B' for r in rows)}) | resueltos: {len(res)} | pendientes: {len(pend)}"]
+for T in ("A", "B"):
+    rt = [x for x in res if tier(x) == T]
+    if not rt: continue
+    r_ = np.array([float(x["retorno"]) for x in rt]); lo, hi = ci(r_); won = np.mean([x["resultado"] == "GANA" for x in rt])
+    pnl = (r_ * np.array([float(x["stake"]) for x in rt])).sum()
+    lines += [f"- NIVEL {T}: n={len(rt)} | acierto {won*100:.0f}% | retorno medio por caso {r_.mean()*100:+.1f}% | IC95 [{lo*100:+.1f}, {hi*100:+.1f}] | PnL papel ${pnl:+.0f}"]
 if res:
-    r_ = np.array([float(x["retorno"]) for x in res]); lo, hi = ci(r_); won = np.mean([x["resultado"] == "GANA" for x in res])
-    pnl = (r_ * np.array([float(x["stake"]) for x in res])).sum()
-    lines += [f"- Acierto: {won*100:.0f}% | retorno medio por caso: {r_.mean()*100:+.1f}% | IC95 [{lo*100:+.1f}, {hi*100:+.1f}] | PnL papel acumulado: ${pnl:+.0f}",
-              f"- Regla de corte: ≥+10% por caso con IC95 > 0 a los 60 casos → real $50-100/caso; < −5% a los 30 casos → cerrar.", "",
-              "| fecha | mercado | lado | entrada | prob mía | resultado | retorno | máx precio |", "|---|---|---|---|---|---|---|---|"]
-    for x in res[-40:]: lines.append(f"| {x['fecha'][:10]} | {x['pregunta'][:60]} | {x['lado']} | {x['precio_entrada']} | {x['prob_mia']} | {x['resultado']} | {float(x['retorno'])*100:+.0f}% | {x.get('max_precio','')} |")
+    lines += [f"- Regla de corte (nivel A): ≥+10% por caso con IC95 > 0 a los 60 casos → real $50-100/caso; < −5% a los 30 casos → cerrar. Nivel B solo se mide.", "",
+              "| fecha | nivel | mercado | lado | entrada | prob mía | resultado | retorno | máx precio |", "|---|---|---|---|---|---|---|---|---|"]
+    for x in res[-60:]: lines.append(f"| {x['fecha'][:10]} | {tier(x)} | {x['pregunta'][:60]} | {x['lado']} | {x['precio_entrada']} | {x['prob_mia']} | {x['resultado']} | {float(x['retorno'])*100:+.0f}% | {x.get('max_precio','')} |")
 if pend:
-    lines += ["", "## Pendientes", "| fecha | mercado | lado | entrada | prob mía | cierre previsto |", "|---|---|---|---|---|---|"]
-    for x in pend: lines.append(f"| {x['fecha'][:10]} | {x['pregunta'][:60]} | {x['lado']} | {x['precio_entrada']} | {x['prob_mia']} | {x['cierre_prev'][:10]} |")
+    lines += ["", "## Pendientes", "| fecha | nivel | mercado | lado | entrada | prob mía | cierre previsto |", "|---|---|---|---|---|---|---|"]
+    for x in pend: lines.append(f"| {x['fecha'][:10]} | {tier(x)} | {x['pregunta'][:60]} | {x['lado']} | {x['precio_entrada']} | {x['prob_mia']} | {x['cierre_prev'][:10]} |")
 MARC.write_text("\n".join(lines), encoding="utf-8"); print("\n".join(lines[:8]))
