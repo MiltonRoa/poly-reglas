@@ -10,7 +10,9 @@ from pathlib import Path
 from urllib.request import urlopen, Request
 import numpy as np
 REG = Path("registro.csv"); MARC = Path("marcador.md")
-COLS = ["fecha", "id", "pregunta", "lado", "precio_entrada", "costo", "prob_mia", "stake", "fuentes", "razon", "cierre_prev", "estado", "resultado", "retorno", "max_precio", "fecha_resuelto"]
+COLS = ["fecha", "id", "pregunta", "lado", "precio_entrada", "costo", "prob_mia", "stake", "fuentes", "razon", "cierre_prev", "estado", "resultado", "retorno", "max_precio", "fecha_resuelto", "tipo"]
+# tipo: PUB = el dato que decide el mercado YA está publicado en la fuente nombrada (el mecanismo del laboratorio);
+#       PROY = falta que ocurra o se publique algo (contadores, datos por salir, hechos futuros). Se mide aparte.
 def jget(u, tries=3):
     for i in range(tries):
         try: return json.loads(urlopen(Request(u, headers={"User-Agent": "Mozilla/5.0"}), timeout=40).read().decode())
@@ -41,23 +43,33 @@ res = [r for r in rows if r.get("estado") == "resuelto"]; pend = [r for r in row
 def tier(r):
     try: return "A" if float(r.get("stake") or 100) >= 100 else "B"
     except Exception: return "A"
+def tipo(r): return (r.get("tipo") or "PROY").strip().upper()[:4] or "PROY"
 def ci(x, n=2000, seed=0):
     x = np.asarray(x, float); rng = np.random.default_rng(seed)
     if len(x) < 5: return (float("nan"), float("nan"))
     b = [rng.choice(x, len(x)).mean() for _ in range(n)]; return (np.percentile(b, 2.5), np.percentile(b, 97.5))
 lines = [f"# Marcador — laboratorio de reglas (papel; nivel A = $100, diferencia ≥0.15; nivel B = $50, diferencia 0.08-0.15)", f"Actualizado: {dt.datetime.now(dt.timezone.utc):%Y-%m-%d %H:%M} UTC", "",
-         f"- Casos marcados: {len(rows)} (A {sum(tier(r)=='A' for r in rows)} / B {sum(tier(r)=='B' for r in rows)}) | resueltos: {len(res)} | pendientes: {len(pend)}"]
-for T in ("A", "B"):
-    rt = [x for x in res if tier(x) == T]
-    if not rt: continue
+         f"- Casos marcados: {len(rows)} (A {sum(tier(r)=='A' for r in rows)} / B {sum(tier(r)=='B' for r in rows)}; PUB {sum(tipo(r)=='PUB' for r in rows)} / PROY {sum(tipo(r)=='PROY' for r in rows)}) | resueltos: {len(res)} | pendientes: {len(pend)}",
+         "- tipo PUB = el dato que decide ya estaba publicado en la fuente nombrada al marcar (el mecanismo del laboratorio); PROY = proyección (contadores, datos por salir, hechos futuros)."]
+def resumen(etq, rt):
     r_ = np.array([float(x["retorno"]) for x in rt]); lo, hi = ci(r_); won = np.mean([x["resultado"] == "GANA" for x in rt])
     pnl = (r_ * np.array([float(x["stake"]) for x in rt])).sum()
-    lines += [f"- NIVEL {T}: n={len(rt)} | acierto {won*100:.0f}% | retorno medio por caso {r_.mean()*100:+.1f}% | IC95 [{lo*100:+.1f}, {hi*100:+.1f}] | PnL papel ${pnl:+.0f}"]
+    return f"- {etq}: n={len(rt)} | acierto {won*100:.0f}% | retorno medio por caso {r_.mean()*100:+.1f}% | IC95 [{lo*100:+.1f}, {hi*100:+.1f}] | PnL papel ${pnl:+.0f}"
+for T in ("A", "B"):
+    rt = [x for x in res if tier(x) == T]
+    if rt: lines.append(resumen(f"NIVEL {T}", rt))
+for P in ("PUB", "PROY"):
+    rt = [x for x in res if tipo(x) == P]
+    if rt: lines.append(resumen(f"TIPO {P}", rt))
+for T in ("A", "B"):
+    for P in ("PUB", "PROY"):
+        rt = [x for x in res if tier(x) == T and tipo(x) == P]
+        if rt: lines.append(resumen(f"NIVEL {T} × {P}", rt))
 if res:
     lines += [f"- Regla de corte (nivel A): ≥+10% por caso con IC95 > 0 a los 60 casos → real $50-100/caso; < −5% a los 30 casos → cerrar. Nivel B solo se mide.", "",
-              "| fecha | nivel | mercado | lado | entrada | prob mía | resultado | retorno | máx precio |", "|---|---|---|---|---|---|---|---|---|"]
-    for x in res[-60:]: lines.append(f"| {x['fecha'][:10]} | {tier(x)} | {x['pregunta'][:60]} | {x['lado']} | {x['precio_entrada']} | {x['prob_mia']} | {x['resultado']} | {float(x['retorno'])*100:+.0f}% | {x.get('max_precio','')} |")
+              "| fecha | nivel | tipo | mercado | lado | entrada | prob mía | resultado | retorno | máx precio |", "|---|---|---|---|---|---|---|---|---|---|"]
+    for x in res[-60:]: lines.append(f"| {x['fecha'][:10]} | {tier(x)} | {tipo(x)} | {x['pregunta'][:60]} | {x['lado']} | {x['precio_entrada']} | {x['prob_mia']} | {x['resultado']} | {float(x['retorno'])*100:+.0f}% | {x.get('max_precio','')} |")
 if pend:
-    lines += ["", "## Pendientes", "| fecha | nivel | mercado | lado | entrada | prob mía | cierre previsto |", "|---|---|---|---|---|---|---|"]
-    for x in pend: lines.append(f"| {x['fecha'][:10]} | {tier(x)} | {x['pregunta'][:60]} | {x['lado']} | {x['precio_entrada']} | {x['prob_mia']} | {x['cierre_prev'][:10]} |")
+    lines += ["", "## Pendientes", "| fecha | nivel | tipo | mercado | lado | entrada | prob mía | máx precio | cierre previsto |", "|---|---|---|---|---|---|---|---|---|"]
+    for x in pend: lines.append(f"| {x['fecha'][:10]} | {tier(x)} | {tipo(x)} | {x['pregunta'][:60]} | {x['lado']} | {x['precio_entrada']} | {x['prob_mia']} | {x.get('max_precio','')} | {x['cierre_prev'][:10]} |")
 MARC.write_text("\n".join(lines), encoding="utf-8"); print("\n".join(lines[:8]))

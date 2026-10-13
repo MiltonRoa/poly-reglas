@@ -1,7 +1,8 @@
 """
 scan.py — Laboratorio de reglas de Polymarket (papel). Lista mercados candidatos a verificación por regla + fuente.
 Criterios: cierran en los próximos DIAS días, volumen ≥ VOL_MIN, precio YES entre 0.05 y 0.95, sin deportes/cripto-5min/
-temperatura. Escribe candidatos/YYYY-MM-DD.json con pregunta, regla completa, fuente nombrada, precios y liquidez.
+temperatura. Escribe candidatos/YYYY-MM-DD_ciego.json (pregunta, regla completa, fuente nombrada, cierre, volumen; SIN precios)
+y candidatos/YYYY-MM-DD.json (lo mismo más p_yes, bid, ask, spread). El lector verifica con el ciego y recién después abre el otro.
 Uso: python scan.py [DIAS=3] [VOL_MIN=10000]
 """
 import json, re, sys, time, datetime as dt
@@ -32,7 +33,10 @@ for k in range(0, DIAS + 1):
         if len(ms) < 100: break
         time.sleep(0.1)
 rows.sort(key=lambda r: (r["end"], -r["vol"]))
-Path("candidatos").mkdir(exist_ok=True); out = Path("candidatos") / f"{hoy:%Y-%m-%d}.json"
+Path("candidatos").mkdir(exist_ok=True); out = Path("candidatos") / f"{hoy:%Y-%m-%d}.json"; out_ciego = Path("candidatos") / f"{hoy:%Y-%m-%d}_ciego.json"
 json.dump({"generado": hoy.strftime("%Y-%m-%d %H:%M UTC"), "n": len(rows), "mercados": rows}, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
-print(f"{len(rows)} candidatos → {out}")
-for r in rows: print(f"[{r['id']}] {r['end'][:16]} p={r['p_yes']:.2f} ask={r['ask']} vol={r['vol']:,} liq={r['liq']:,} | {r['q'][:100]}")
+# Versión CIEGA (sin precio, bid, ask ni spread): es la única que el lector abre mientras escribe sus probabilidades.
+CIEGO = ["id", "slug", "q", "event", "end", "vol", "liq", "resolutionSource", "rules"]
+json.dump({"generado": hoy.strftime("%Y-%m-%d %H:%M UTC"), "n": len(rows), "mercados": [{k: r[k] for k in CIEGO} for r in rows]}, open(out_ciego, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+print(f"{len(rows)} candidatos → {out_ciego} (ciego, para verificar) y {out} (con precios, solo para marcar)")
+for r in rows: print(f"[{r['id']}] {r['end'][:16]} vol={r['vol']:,} liq={r['liq']:,} | {r['q'][:100]}")
