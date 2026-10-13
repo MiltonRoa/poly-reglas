@@ -1,7 +1,7 @@
 # Marcador — laboratorio de reglas (papel; nivel A = $100, diferencia ≥0.15; nivel B = $50, diferencia 0.08-0.15)
-Actualizado: 2026-10-13 10:08 UTC
+Actualizado: 2026-10-13 14:07 UTC
 
-- Casos marcados: 8 (A 5 / B 3; PUB 0 / PROY 8) | resueltos: 1 | pendientes: 7
+- Casos marcados: 9 (A 6 / B 3; PUB 0 / PROY 9) | resueltos: 1 | pendientes: 8
 - tipo PUB = el dato que decide ya estaba publicado en la fuente nombrada al marcar (el mecanismo del laboratorio); PROY = proyección (contadores, datos por salir, hechos futuros).
 - NIVEL B: n=1 | acierto 0% | retorno medio por caso -100.0% | IC95 [+nan, +nan] | PnL papel $-50
 - TIPO PROY: n=1 | acierto 0% | retorno medio por caso -100.0% | IC95 [+nan, +nan] | PnL papel $-50
@@ -20,5 +20,6 @@ Actualizado: 2026-10-13 10:08 UTC
 | 2026-10-12 | B | PROY | Will China’s CPI increase by between 0.7% and 0.8% over the  | YES | 0.135 | 0.27 | 0.195 | 2026-10-14 |
 | 2026-10-13 | A | PROY | Gemini Argon released by October 14, 2026? | NO | 0.30 | 0.14 | 0.270 | 2026-10-15 |
 | 2026-10-13 | A | PROY | Will Elon Musk post 65-89 tweets from October 12 to October  | YES | 0.52 | 0.67 | 0.735 | 2026-10-14 |
-| 2026-10-13 | B | PROY | Will Elon Musk post 40-64 tweets from October 12 to October  | NO | 0.79 | 0.12 | 0.920 | 2026-10-14 |
-| 2026-10-13 | A | PROY | Will Elon Musk post 360-379 tweets from October 6 to October | NO | 0.125 | 0.71 | 0.123 | 2026-10-13 |
+| 2026-10-13 | B | PROY | Will Elon Musk post 40-64 tweets from October 12 to October  | NO | 0.79 | 0.12 | 0.971 | 2026-10-14 |
+| 2026-10-13 | A | PROY | Will Elon Musk post 360-379 tweets from October 6 to October | NO | 0.125 | 0.71 | 0.243 | 2026-10-13 |
+| 2026-10-13 | A | PROY | Progressive (PGR) Q3 combined ratio 86% to 89%? | NO | 0.34 | 0.45 | 0.000 | 2026-10-14 |
