@@ -1,5 +1,5 @@
 # Marcador — laboratorio de reglas (papel; nivel A = $100, diferencia ≥0.15; nivel B = $50, diferencia 0.08-0.15)
-Actualizado: 2026-10-14 18:06 UTC
+Actualizado: 2026-10-14 22:06 UTC
 
 - Casos marcados: 11 (A 6 / B 5; PUB 0 / PROY 11) | resueltos: 8 | pendientes: 3
 - tipo PUB = el dato que decide ya estaba publicado en la fuente nombrada al marcar (el mecanismo del laboratorio); PROY = proyección (contadores, datos por salir, hechos futuros).
@@ -25,5 +25,5 @@ Actualizado: 2026-10-14 18:06 UTC
 | fecha | nivel | tipo | mercado | lado | entrada | prob mía | máx precio | cierre previsto |
 |---|---|---|---|---|---|---|---|---|
 | 2026-10-13 | A | PROY | Progressive (PGR) Q3 combined ratio 86% to 89%? | NO | 0.34 | 0.45 | 0.345 | 2026-10-14 |
-| 2026-10-14 | B | PROY | Taiwan Semiconductor (TSM) Q3 gross profit margin 68% to 69% | NO | 0.69 | 0.22 | 0.630 | 2026-10-15 |
-| 2026-10-14 | B | PROY | Will Donald Trump post 200+ Truth Social posts from October  | NO | 0.648 | 0.22 | 0.592 | 2026-10-16 |
+| 2026-10-14 | B | PROY | Taiwan Semiconductor (TSM) Q3 gross profit margin 68% to 69% | NO | 0.69 | 0.22 | 0.665 | 2026-10-15 |
+| 2026-10-14 | B | PROY | Will Donald Trump post 200+ Truth Social posts from October  | NO | 0.648 | 0.22 | 0.724 | 2026-10-16 |
