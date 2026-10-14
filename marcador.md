@@ -1,5 +1,5 @@
 # Marcador — laboratorio de reglas (papel; nivel A = $100, diferencia ≥0.15; nivel B = $50, diferencia 0.08-0.15)
-Actualizado: 2026-10-14 02:03 UTC
+Actualizado: 2026-10-14 02:07 UTC
 
 - Casos marcados: 9 (A 6 / B 3; PUB 0 / PROY 9) | resueltos: 6 | pendientes: 3
 - tipo PUB = el dato que decide ya estaba publicado en la fuente nombrada al marcar (el mecanismo del laboratorio); PROY = proyección (contadores, datos por salir, hechos futuros).
