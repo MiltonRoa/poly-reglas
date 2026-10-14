@@ -1,7 +1,7 @@
 # Marcador — laboratorio de reglas (papel; nivel A = $100, diferencia ≥0.15; nivel B = $50, diferencia 0.08-0.15)
-Actualizado: 2026-10-14 10:06 UTC
+Actualizado: 2026-10-14 14:06 UTC
 
-- Casos marcados: 9 (A 6 / B 3; PUB 0 / PROY 9) | resueltos: 8 | pendientes: 1
+- Casos marcados: 10 (A 6 / B 4; PUB 0 / PROY 10) | resueltos: 8 | pendientes: 2
 - tipo PUB = el dato que decide ya estaba publicado en la fuente nombrada al marcar (el mecanismo del laboratorio); PROY = proyección (contadores, datos por salir, hechos futuros).
 - NIVEL A: n=5 | acierto 0% | retorno medio por caso -100.0% | IC95 [-100.0, -100.0] | PnL papel $-500
 - NIVEL B: n=3 | acierto 33% | retorno medio por caso -58.3% | IC95 [+nan, +nan] | PnL papel $-88
@@ -25,3 +25,4 @@ Actualizado: 2026-10-14 10:06 UTC
 | fecha | nivel | tipo | mercado | lado | entrada | prob mía | máx precio | cierre previsto |
 |---|---|---|---|---|---|---|---|---|
 | 2026-10-13 | A | PROY | Progressive (PGR) Q3 combined ratio 86% to 89%? | NO | 0.34 | 0.45 | 0.345 | 2026-10-14 |
+| 2026-10-14 | B | PROY | Taiwan Semiconductor (TSM) Q3 gross profit margin 68% to 69% | NO | 0.69 | 0.22 | 0.000 | 2026-10-15 |
