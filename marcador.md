@@ -1,5 +1,5 @@
 # Marcador — laboratorio de reglas (papel; nivel A = $100, diferencia ≥0.15; nivel B = $50, diferencia 0.08-0.15)
-Actualizado: 2026-10-15 14:06 UTC
+Actualizado: 2026-10-15 18:06 UTC
 
 - Casos marcados: 11 (A 6 / B 5; PUB 0 / PROY 11) | resueltos: 10 | pendientes: 1
 - tipo PUB = el dato que decide ya estaba publicado en la fuente nombrada al marcar (el mecanismo del laboratorio); PROY = proyección (contadores, datos por salir, hechos futuros).
@@ -26,4 +26,4 @@ Actualizado: 2026-10-15 14:06 UTC
 ## Pendientes
 | fecha | nivel | tipo | mercado | lado | entrada | prob mía | máx precio | cierre previsto |
 |---|---|---|---|---|---|---|---|---|
-| 2026-10-14 | B | PROY | Will Donald Trump post 200+ Truth Social posts from October  | NO | 0.648 | 0.22 | 0.872 | 2026-10-16 |
+| 2026-10-14 | B | PROY | Will Donald Trump post 200+ Truth Social posts from October  | NO | 0.648 | 0.22 | 0.888 | 2026-10-16 |
