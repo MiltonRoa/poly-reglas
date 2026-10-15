@@ -1,3 +1,13 @@
+# ⚰️ CERRADO 15/10/2026 — Laboratorio de reglas Polymarket (papel)
+
+**Resultado (3 días, 11 casos, 10 resueltos):** nivel A 0/6 (−$600, −100 %/caso); nivel B 2/4 (−$66). Total −$666 de $900.
+**PUB: 0 de 11.** El mecanismo (dato ya publicado en la fuente + precio atrasado) nunca apareció en ~18 corridas; todo lo marcado fue proyección.
+**Calibración:** el lector esperaba 54 % de aciertos y tuvo 20 %; el mercado implicaba 36 %. El lector es peor que el mercado.
+**Salidas:** vender a 0.80/0.90/0.97 = −$694/−$681/−$671 vs esperar −$666. Ninguna ayuda.
+Rutina apagada. $0 reales. Lápida 135 en LIBRETA_HIPOTESIS.md. Lo de abajo queda como documentación.
+
+---
+
 # Laboratorio de reglas — Polymarket (papel)
 
 Hipótesis: en mercados medianos de Polymarket, el precio tarda en reflejar lo que la **regla escrita** y la **fuente
