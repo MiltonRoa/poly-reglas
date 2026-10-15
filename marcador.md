@@ -1,12 +1,12 @@
 # Marcador — laboratorio de reglas (papel; nivel A = $100, diferencia ≥0.15; nivel B = $50, diferencia 0.08-0.15)
-Actualizado: 2026-10-14 22:06 UTC
+Actualizado: 2026-10-15 02:06 UTC
 
-- Casos marcados: 11 (A 6 / B 5; PUB 0 / PROY 11) | resueltos: 8 | pendientes: 3
+- Casos marcados: 11 (A 6 / B 5; PUB 0 / PROY 11) | resueltos: 9 | pendientes: 2
 - tipo PUB = el dato que decide ya estaba publicado en la fuente nombrada al marcar (el mecanismo del laboratorio); PROY = proyección (contadores, datos por salir, hechos futuros).
-- NIVEL A: n=5 | acierto 0% | retorno medio por caso -100.0% | IC95 [-100.0, -100.0] | PnL papel $-500
+- NIVEL A: n=6 | acierto 0% | retorno medio por caso -100.0% | IC95 [-100.0, -100.0] | PnL papel $-600
 - NIVEL B: n=3 | acierto 33% | retorno medio por caso -58.3% | IC95 [+nan, +nan] | PnL papel $-88
-- TIPO PROY: n=8 | acierto 12% | retorno medio por caso -84.4% | IC95 [-100.0, -53.1] | PnL papel $-588
-- NIVEL A × PROY: n=5 | acierto 0% | retorno medio por caso -100.0% | IC95 [-100.0, -100.0] | PnL papel $-500
+- TIPO PROY: n=9 | acierto 11% | retorno medio por caso -86.1% | IC95 [-100.0, -58.3] | PnL papel $-688
+- NIVEL A × PROY: n=6 | acierto 0% | retorno medio por caso -100.0% | IC95 [-100.0, -100.0] | PnL papel $-600
 - NIVEL B × PROY: n=3 | acierto 33% | retorno medio por caso -58.3% | IC95 [+nan, +nan] | PnL papel $-88
 - Regla de corte (nivel A): ≥+10% por caso con IC95 > 0 a los 60 casos → real $50-100/caso; < −5% a los 30 casos → cerrar. Nivel B solo se mide.
 
@@ -20,10 +20,10 @@ Actualizado: 2026-10-14 22:06 UTC
 | 2026-10-13 | A | PROY | Will Elon Musk post 65-89 tweets from October 12 to October  | YES | 0.52 | 0.67 | PIERDE | -100% | 0.780 |
 | 2026-10-13 | B | PROY | Will Elon Musk post 40-64 tweets from October 12 to October  | NO | 0.79 | 0.12 | GANA | +25% | 1.000 |
 | 2026-10-13 | A | PROY | Will Elon Musk post 360-379 tweets from October 6 to October | NO | 0.125 | 0.71 | PIERDE | -100% | 0.243 |
+| 2026-10-13 | A | PROY | Progressive (PGR) Q3 combined ratio 86% to 89%? | NO | 0.34 | 0.45 | PIERDE | -100% | 0.345 |
 
 ## Pendientes
 | fecha | nivel | tipo | mercado | lado | entrada | prob mía | máx precio | cierre previsto |
 |---|---|---|---|---|---|---|---|---|
-| 2026-10-13 | A | PROY | Progressive (PGR) Q3 combined ratio 86% to 89%? | NO | 0.34 | 0.45 | 0.345 | 2026-10-14 |
 | 2026-10-14 | B | PROY | Taiwan Semiconductor (TSM) Q3 gross profit margin 68% to 69% | NO | 0.69 | 0.22 | 0.665 | 2026-10-15 |
-| 2026-10-14 | B | PROY | Will Donald Trump post 200+ Truth Social posts from October  | NO | 0.648 | 0.22 | 0.724 | 2026-10-16 |
+| 2026-10-14 | B | PROY | Will Donald Trump post 200+ Truth Social posts from October  | NO | 0.648 | 0.22 | 0.854 | 2026-10-16 |
